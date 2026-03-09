@@ -1,0 +1,14 @@
+load("@rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "phonebook",
+    srcs = ["phonebook.go"],
+    importpath = "github.com/johanastborg/phonebook/phonebook",
+    visibility = ["//visibility:public"],
+)
+
+go_test(
+    name = "phonebook_test",
+    srcs = ["phonebook_test.go"],
+    embed = [":phonebook"],
+)

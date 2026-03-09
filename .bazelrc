@@ -1,0 +1,2 @@
+common --repo_env=CGO_ENABLED=0
+build --@rules_go//go/config:pure
