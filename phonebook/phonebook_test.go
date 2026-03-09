@@ -33,3 +33,44 @@ func TestFindContact(t *testing.T) {
 		}
 	})
 }
+
+func TestListContacts(t *testing.T) {
+	pb := NewPhoneBook()
+	pb.AddContact("Alice", "123-456")
+	pb.AddContact("Bob", "789-012")
+
+	contacts := pb.ListContacts()
+	if len(contacts) != 2 {
+		t.Fatalf("expected 2 contacts, got %d", len(contacts))
+	}
+
+	if contacts[0].Name != "Alice" {
+		t.Errorf("expected Alice, got %v", contacts[0].Name)
+	}
+	if contacts[1].Name != "Bob" {
+		t.Errorf("expected Bob, got %v", contacts[1].Name)
+	}
+}
+
+func TestDeleteContact(t *testing.T) {
+	pb := NewPhoneBook()
+	pb.AddContact("Alice", "123-456")
+	pb.AddContact("Bob", "789-012")
+
+	t.Run("delete successful", func(t *testing.T) {
+		err := pb.DeleteContact("Alice")
+		if err != nil {
+			t.Fatalf("expected no error, got %v", err)
+		}
+		if len(pb.ListContacts()) != 1 {
+			t.Errorf("expected 1 contact, got %d", len(pb.ListContacts()))
+		}
+	})
+
+	t.Run("delete non-existent", func(t *testing.T) {
+		err := pb.DeleteContact("Charlie")
+		if err == nil {
+			t.Fatal("expected error, got nil")
+		}
+	})
+}
